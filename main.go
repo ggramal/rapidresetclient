@@ -51,6 +51,8 @@ func sendRequest(framer *http2.Framer, mu *sync.Mutex, path string, serverURL *u
 	encoder.WriteField(hpack.HeaderField{Name: ":path", Value: path})
 	encoder.WriteField(hpack.HeaderField{Name: ":scheme", Value: "https"})
 	encoder.WriteField(hpack.HeaderField{Name: ":authority", Value: serverURL.Host})
+	encoder.WriteField(hpack.HeaderField{Name: "user-agent", Value: "Mozilla/5.0 (iPhone; CPU iPhone OS 19_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1"})
+	encoder.WriteField(hpack.HeaderField{Name: "referer", Value: "https://www.reuters.com/"})
 
 	streamID := atomic.AddUint32(&streamCounter, 2) // Increment streamCounter and allocate stream ID in units of two to ensure stream IDs are odd numbered per RFC 9113
 	if err := framer.WriteHeaders(http2.HeadersFrameParam{
